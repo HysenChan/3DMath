@@ -3,6 +3,15 @@
 #include "MathUtil.h"
 #include "assert.h"
 
+void Matrix3x3::setupProject(const Vector3& n)
+{
+	assert(fabs(n * n - 1.0f) < 0.001);
+
+	m11 = 1.0f - n.x * n.x; m12 = -n.x * n.y;		m13 = -n.x * n.z;
+	m21 = m12;				m22 = 1.0f - n.y * n.y; m23 = -n.y * n.z;
+	m31 = m13;				m32 = m23;				m33 = 1.0f - n.z * n.z;
+}
+
 void Matrix3x3::setupScale(const Vector3& s)
 {
 	m11 = s.x, m12 = 0.0f, m13 = 0.0f;

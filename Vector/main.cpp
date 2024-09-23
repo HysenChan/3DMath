@@ -174,6 +174,21 @@ void TransScale()
 	print_v(b);
 }
 
+void TransProject()
+{
+	cout << "hello transproject" << endl;
+	Vector3 a(10, 20, 30), b;
+	print_v(a);
+
+	Matrix3x3 M;
+
+	Vector3 n(0, 0, 1);
+	M.setupProject(n);
+	print_m(M);
+	b = a * M;
+	print_v(b);
+}
+
 int main()
 {
 	//Vector();
@@ -181,7 +196,8 @@ int main()
 	//Matrix();
 
 	//TransRotation();
-	TransScale();
+	//TransScale();
+	TransProject();
 
 	system("pause");
 	return 0;
