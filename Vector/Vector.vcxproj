@@ -140,6 +140,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Matrix3x3.cpp" />
+    <ClCompile Include="Matrix3x3.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Vector3.h" />
