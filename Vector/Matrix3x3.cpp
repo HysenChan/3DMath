@@ -3,6 +3,13 @@
 #include "MathUtil.h"
 #include "assert.h"
 
+void Matrix3x3::setupScale(const Vector3& s)
+{
+	m11 = s.x, m12 = 0.0f, m13 = 0.0f;
+	m21 = 0.0f, m22 = s.y, m23 = 0.0f;
+	m31 = 0.0f, m32 = 0.0f, m33 = s.z;
+}
+
 // axis
 // 1->xÖá
 // 2->yÖá

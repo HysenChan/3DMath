@@ -160,13 +160,28 @@ void TransRotation()
 	print_m(M);
 }
 
+void TransScale()
+{
+	cout << "hello transscale" << endl;
+	Vector3 a(10, 20, 30), b;
+	print_v(a);
+
+	Matrix3x3 M;
+	Vector3 s(1, 2, 3);
+	M.setupScale(s);
+	print_m(M);
+	b = a * M;
+	print_v(b);
+}
+
 int main()
 {
 	//Vector();
 
 	//Matrix();
 
-	TransRotation();
+	//TransRotation();
+	TransScale();
 
 	system("pause");
 	return 0;

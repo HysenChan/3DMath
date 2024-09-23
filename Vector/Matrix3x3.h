@@ -11,6 +11,7 @@ public:
 	float m31, m32, m33;
 
 	void setRotate(int axis, float theta);
+	void setupScale(const Vector3& s);
 };
 
 Matrix3x3 operator *(const Matrix3x3& a, const Matrix3x3& b);//ÖØÔØ*ÔËËã·û¼ÆËã¾ØÕóx¾ØÕó
