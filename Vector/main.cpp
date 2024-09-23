@@ -6,7 +6,7 @@ using namespace std;
 
 void print_v(Vector3 v)
 {
-	cout << "[" << v.x << "," << v.y << "," << v.z << "]";
+	cout << "[" << v.x << "," << v.y << "," << v.z << "]" << endl;
 }
 
 void Vector()
@@ -114,8 +114,16 @@ void Matrix()
 	Vector3 r = v * m;
 	print_v(r);
 
-	cout << "second calc vector with matrix3x3" << endl;
+	/*cout << "second calc vector with matrix3x3" << endl;
 	v = v * m;
+	print_v(v);*/
+
+	cout << "first calc matrix3x3 with vector" << endl;
+	Vector3 r1 = m * v;
+	print_v(r1);
+
+	cout << "second calc matrix3x3 with vector" << endl;
+	v = m * v;
 	print_v(v);
 }
 

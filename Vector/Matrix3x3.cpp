@@ -35,8 +35,25 @@ Vector3 operator*(const Vector3& p, const Matrix3x3& m)
 	);
 }
 
+
 Vector3& operator *=(Vector3& p, const Matrix3x3& m)
 {
 	p = p * m;
+	return p;
+}
+
+
+Vector3 operator*(const Matrix3x3& m, const Vector3& p)
+{
+	return Vector3(
+		p.x * m.m11 + p.y * m.m12 + p.z * m.m13,
+		p.x * m.m21 + p.y * m.m22 + p.z * m.m23,
+		p.x * m.m31 + p.y * m.m32 + p.z * m.m33
+	);
+}
+
+Vector3& operator *=(const Matrix3x3& m, Vector3& p)
+{
+	p = m * p;
 	return p;
 }

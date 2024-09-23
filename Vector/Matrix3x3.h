@@ -15,6 +15,10 @@ Matrix3x3 operator *(const Matrix3x3& a, const Matrix3x3& b);//重载*运算符计算矩
 
 Vector3 operator *(const Vector3& p, const Matrix3x3& m);//（行向量）重载*运算符计算向量x矩阵
 
+Vector3 operator *(const Matrix3x3& m, const Vector3& p);//（列向量）重载*运算符计算矩阵x向量
+
 Matrix3x3& operator *=(Matrix3x3& a, const Matrix3x3& m);//重载*=运算符计算矩阵x矩阵
 
 Vector3& operator*=(Vector3& p, const Matrix3x3& m);//（行向量）重载*=运算符计算向量x矩阵
+
+Vector3& operator *=(const Matrix3x3& m, Vector3& p);//（列向量）重载*=运算符计算矩阵x向量
