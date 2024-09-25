@@ -3,6 +3,31 @@
 #include "MathUtil.h"
 #include "assert.h"
 
+void Matrix3x3::setupShear(int axis, float s, float t)
+{
+	switch (axis)
+	{
+	case 1://”√x«–±ﬂy,z
+		m11 = 1.0f; m12 = s,	m13 = t;
+		m21 = 0.0f; m22 = 1.0f; m23 = 0.0f;
+		m31 = 0.0f; m32 = 0.0f; m33 = 1.0f;
+		break;
+	case 2://”√y«–±ﬂx,z
+		m11 = 1.0f; m12 = 0.0f, m13 = 0.0f;
+		m21 = s;	m22 = 1.0f; m23 = t;
+		m31 = 0.0f; m32 = 0.0f; m33 = 1.0f;
+		break;
+	case 3://”√z«–±ﬂx,y
+		m11 = 1.0f; m12 = 0.0f, m13 = 0.0f;
+		m21 = 0.0f; m22 = 1.0f; m23 = 0.0f;
+		m31 = s;	m32 = t;	m33 = 1.0f;
+		break;
+	default:
+		assert(false);
+		break;
+	}
+}
+
 void Matrix3x3::setupReflect(const Vector3& n)
 {
 	assert(fabs(n * n - 1.0f) < 0.01f);

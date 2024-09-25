@@ -15,6 +15,7 @@ public:
 	void setupProject(const Vector3& n);//Í¶Ó°¾ØÕó
 	void setupReflect(int axis);//¾µÏñ¾ØÕó
 	void setupReflect(const Vector3& n);//ÈıÎ¬µÄ
+	void setupShear(int axis, float s, float t);//ÇĞ±ß¾ØÕó
 };
 
 Matrix3x3 operator *(const Matrix3x3& a, const Matrix3x3& b);//ÖØÔØ*ÔËËã·û¼ÆËã¾ØÕóx¾ØÕó

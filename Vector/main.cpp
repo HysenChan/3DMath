@@ -216,6 +216,19 @@ void TransRelfect()
 	print_v(b);
 }
 
+void TransShear()
+{
+	cout << "hello transshear" << endl;
+
+	Vector3 a(10, 20, 30), b;
+
+	Matrix3x3 M;
+
+	M.setupShear(1, 1, 2);//ÓÃxÇÐ±ßyºÍz(10,20+1*10=30,30+2*10=50)
+	b = a * M;
+	print_v(b);
+}
+
 int main()
 {
 	//Vector();
@@ -225,7 +238,8 @@ int main()
 	//TransRotation();
 	//TransScale();
 	//TransProject();
-	TransRelfect();
+	//TransRelfect();
+	TransShear();
 
 	system("pause");
 	return 0;
