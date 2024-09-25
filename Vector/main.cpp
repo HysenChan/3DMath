@@ -229,17 +229,37 @@ void TransShear()
 	print_v(b);
 }
 
+void Determinant()
+{
+	cout << "hello Determinant" << endl;
+
+	Matrix3x3 m;
+	m.m11 = 3; m.m12 = -2; m.m13 = 0;
+	m.m21 = 1; m.m22 = 4; m.m23 = -3;
+	m.m31 = -1; m.m32 = 0; m.m33 = 2;
+
+	float detM = determinant(m);
+	cout << detM << endl;
+}
+
 int main()
 {
 	//Vector();
 
 	//Matrix();
 
+	//线性变换 begin
 	//TransRotation();
 	//TransScale();
 	//TransProject();
 	//TransRelfect();
-	TransShear();
+	//TransShear();
+	//线性变换 end
+
+	//行列式 begin
+	Determinant();//几何意义：2D的行列式-》面积  3D的行列式-》体积
+
+	//行列式 end
 
 	system("pause");
 	return 0;

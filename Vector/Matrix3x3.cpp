@@ -8,7 +8,7 @@ void Matrix3x3::setupShear(int axis, float s, float t)
 	switch (axis)
 	{
 	case 1://”√x«–±ﬂy,z
-		m11 = 1.0f; m12 = s,	m13 = t;
+		m11 = 1.0f; m12 = s, m13 = t;
 		m21 = 0.0f; m22 = 1.0f; m23 = 0.0f;
 		m31 = 0.0f; m32 = 0.0f; m33 = 1.0f;
 		break;
@@ -169,4 +169,11 @@ Vector3& operator *=(const Matrix3x3& m, Vector3& p)
 {
 	p = m * p;
 	return p;
+}
+
+float determinant(const Matrix3x3& m)
+{
+	return m.m11 * (m.m22 * m.m33 - m.m23 * m.m32)
+		+ m.m12 * (m.m23 * m.m31 - m.m21 * m.m33)
+		+ m.m13 * (m.m21 * m.m32 - m.m22 * m.m31);
 }
