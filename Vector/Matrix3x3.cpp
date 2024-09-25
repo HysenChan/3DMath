@@ -177,3 +177,26 @@ float determinant(const Matrix3x3& m)
 		+ m.m12 * (m.m23 * m.m31 - m.m21 * m.m33)
 		+ m.m13 * (m.m21 * m.m32 - m.m22 * m.m31);
 }
+
+Matrix3x3 inverse(const Matrix3x3& m)
+{
+	float det = determinant(m);
+	assert(fabs(det) > 0.00001f);
+	float oneOverDet = 1.0f / det;
+
+	Matrix3x3 r;
+
+	r.m11 = (m.m22 * m.m33 - m.m23 * m.m32) * oneOverDet;
+	r.m12 = (m.m13 * m.m32 - m.m12 * m.m33) * oneOverDet;
+	r.m13 = (m.m12 * m.m23 - m.m22 * m.m13) * oneOverDet;
+
+	r.m21 = (m.m31 * m.m23 - m.m21 * m.m33) * oneOverDet;
+	r.m22 = (m.m11 * m.m33 - m.m31 * m.m13) * oneOverDet;
+	r.m23 = (m.m21 * m.m13 - m.m11 * m.m23) * oneOverDet;
+
+	r.m31 = (m.m21 * m.m32 - m.m31 * m.m22) * oneOverDet;
+	r.m32 = (m.m31 * m.m12 - m.m11 * m.m32) * oneOverDet;
+	r.m33 = (m.m11 * m.m22 - m.m12 * m.m21) * oneOverDet;
+
+	return r;
+}

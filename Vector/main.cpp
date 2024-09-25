@@ -242,6 +242,22 @@ void Determinant()
 	cout << detM << endl;
 }
 
+void Inverse()
+{
+	cout << "hello Matrix Inverse" << endl;
+
+	Matrix3x3 m;
+	m.m11 = -4; m.m12 = -3; m.m13 = 3;
+	m.m21 = 0; m.m22 = 2; m.m23 = -2;
+	m.m31 = 1; m.m32 = 4; m.m33 = -1;
+
+	Matrix3x3 r = inverse(m);
+	print_m(r);
+
+	Matrix3x3 a = m * r;//(矩阵)和(矩阵的逆)相乘得到单位矩阵。
+	print_m(a);
+}
+
 int main()
 {
 	//Vector();
@@ -257,7 +273,8 @@ int main()
 	//线性变换 end
 
 	//行列式 begin
-	Determinant();//几何意义：2D的行列式-》面积  3D的行列式-》体积
+	//Determinant();//几何意义：2D的行列式-》面积  3D的行列式-》体积
+	Inverse();
 
 	//行列式 end
 

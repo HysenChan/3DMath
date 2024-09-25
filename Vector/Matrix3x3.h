@@ -30,4 +30,5 @@ Vector3& operator*=(Vector3& p, const Matrix3x3& m);//（行向量）重载*=运算符计算
 
 Vector3& operator *=(const Matrix3x3& m, Vector3& p);//（列向量）重载*=运算符计算矩阵x向量
 
-float determinant(const Matrix3x3& m);
+float determinant(const Matrix3x3& m);//矩阵的行列式
+Matrix3x3 inverse(const Matrix3x3& m);//矩阵的逆
