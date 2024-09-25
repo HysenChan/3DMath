@@ -274,7 +274,7 @@ int main()
 
 	//行列式 begin
 	//Determinant();//几何意义：2D的行列式-》面积  3D的行列式-》体积
-	Inverse();
+	Inverse();//做了线性变换之后想反悔，用矩阵的逆相乘，可以撤销。
 
 	//行列式 end
 
