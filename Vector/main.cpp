@@ -189,6 +189,33 @@ void TransProject()
 	print_v(b);
 }
 
+void TransRelfect()
+{
+	cout << "hello transreflect" << endl;
+
+	Vector3 a(10, 20, 30), b;
+	print_v(a);
+
+	Matrix3x3 M;
+
+	M.setupReflect(1);
+	b = a * M;
+	print_v(b);
+
+	M.setupReflect(2);
+	b = a * M;
+	print_v(b);
+
+	M.setupReflect(3);
+	b = a * M;
+	print_v(b);
+
+	Vector3 n(0, 0, 1);
+	M.setupReflect(n);
+	b = a * M;
+	print_v(b);
+}
+
 int main()
 {
 	//Vector();
@@ -197,7 +224,8 @@ int main()
 
 	//TransRotation();
 	//TransScale();
-	TransProject();
+	//TransProject();
+	TransRelfect();
 
 	system("pause");
 	return 0;

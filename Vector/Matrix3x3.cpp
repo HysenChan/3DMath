@@ -3,6 +3,44 @@
 #include "MathUtil.h"
 #include "assert.h"
 
+void Matrix3x3::setupReflect(const Vector3& n)
+{
+	assert(fabs(n * n - 1.0f) < 0.01f);
+
+	float ax = -2.0f * n.x;
+	float ay = -2.0f * n.y;
+	float az = -2.0f * n.z;
+
+	m11 = 1.0f + ax * n.x;	m12 = ax * n.y;			m13 = ax * n.z;
+	m21 = m12;			m22 = 1.0f + ay * n.y;	m23 = ay * n.z;
+	m31 = m13;			m32 = m23;			m33 = 1.0f + az * n.z;
+}
+
+void Matrix3x3::setupReflect(int axis)
+{
+	switch (axis)
+	{
+	case 1://x坐标发生镜像
+		m11 = -1.0f; m12 = 0.0f, m13 = 0.0f;
+		m21 = 0.0f; m22 = 1.0f, m23 = 0.0f;
+		m31 = 0.0f; m32 = 0.0f; m33 = 1.0f;
+		break;
+	case 2://y坐标发生镜像
+		m11 = 1.0f; m12 = 0.0f, m13 = 0.0f;
+		m21 = 0.0f; m22 = -1.0f, m23 = 0.0f;
+		m31 = 0.0f; m32 = 0.0f; m33 = 1.0f;
+		break;
+	case 3://z坐标发生镜像
+		m11 = 1.0f; m12 = 0.0f, m13 = 0.0f;
+		m21 = 0.0f; m22 = 1.0f, m23 = 0.0f;
+		m31 = 0.0f; m32 = 0.0f; m33 = -1.0f;
+		break;
+	default:
+		assert(false);
+		break;
+	}
+}
+
 void Matrix3x3::setupProject(const Vector3& n)
 {
 	assert(fabs(n * n - 1.0f) < 0.001);

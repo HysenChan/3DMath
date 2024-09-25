@@ -13,6 +13,8 @@ public:
 	void setRotate(int axis, float theta);//旋转矩阵
 	void setupScale(const Vector3& s);//缩放矩阵
 	void setupProject(const Vector3& n);//投影矩阵
+	void setupReflect(int axis);//镜像矩阵
+	void setupReflect(const Vector3& n);//三维的
 };
 
 Matrix3x3 operator *(const Matrix3x3& a, const Matrix3x3& b);//重载*运算符计算矩阵x矩阵
