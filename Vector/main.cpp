@@ -309,10 +309,10 @@ void EulerRotationFunc()
 	print_m(m);
 	e.fromObjectToWorldMatrix(m);
 	print_m(m);
-	print_e(e);
+	print_e(e);//-30бу
 	e.fromWorldToObjectMatrix(m);
 	print_m(m);
-	print_e(e);
+	print_e(e);//30бу
 }
 
 int main()
