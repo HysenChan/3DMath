@@ -2,6 +2,7 @@
 #include"Vector3.h"
 #include"Matrix4x3.h"
 #include"MathUtil.h"
+#include"RotationMatrix.h"
 
 using namespace std;
 
@@ -258,6 +259,23 @@ void Inverse()
 	print_m(a);
 }
 
+void RotationMatrixFunc()
+{
+	cout << "旋转矩阵" << endl;
+
+	RotationMatrix m;
+	m.m11 = 0.866f; m.m12 = 0.0f; m.m13 = -0.5f;
+	m.m21 = 0.0f; m.m22 = 1.0f; m.m23 = 0.0f;
+	m.m31 = 0.5f; m.m32 = 0.0f; m.m33 = 0.866f;
+
+	Vector3 v(10, 20, 30);
+	Vector3 v2;
+	v2 = m.inertialToObject(v);
+	print_v(v2);
+	v2 = m.objectToInertial(v);
+	print_v(v2);
+}
+
 int main()
 {
 	//Vector();
@@ -274,9 +292,11 @@ int main()
 
 	//行列式 begin
 	//Determinant();//几何意义：2D的行列式-》面积  3D的行列式-》体积
-	Inverse();//做了线性变换之后想反悔，用矩阵的逆相乘，可以撤销。
+	//Inverse();//做了线性变换之后想反悔，用矩阵的逆相乘，可以撤销。
 
 	//行列式 end
+
+	RotationMatrixFunc();
 
 	system("pause");
 	return 0;
