@@ -1,6 +1,6 @@
 #include<iostream>
 #include"Vector3.h"
-#include"Matrix3x3.h"
+#include"Matrix4x3.h"
 #include"MathUtil.h"
 
 using namespace std;
@@ -83,7 +83,7 @@ void Vector()
 	print_v(t3);
 }
 
-void print_m(Matrix3x3 m)
+void print_m(Matrix4x3 m)
 {
 	cout << to_zero(m.m11) << "\t" << to_zero(m.m12) << "\t" << to_zero(m.m13) << endl;
 	cout << to_zero(m.m21) << "\t" << to_zero(m.m22) << "\t" << to_zero(m.m23) << endl;
@@ -93,7 +93,7 @@ void print_m(Matrix3x3 m)
 void Matrix()
 {
 	cout << "hello matrix" << endl;
-	Matrix3x3 a, b, c;
+	Matrix4x3 a, b, c;
 	a.m11 = 1, a.m12 = -5, a.m13 = 3;
 	a.m21 = 0, a.m22 = -2, a.m23 = 6;
 	a.m31 = 7, a.m32 = 2, a.m33 = -4;
@@ -113,7 +113,7 @@ void Matrix()
 	print_m(a);
 
 	Vector3 v(3, -1, 4);
-	Matrix3x3 m;
+	Matrix4x3 m;
 	m.m11 = -2, m.m12 = 0, m.m13 = 3;
 	m.m21 = 5, m.m22 = 7, m.m23 = -6;
 	m.m31 = 1, m.m32 = -4, m.m33 = 2;
@@ -141,7 +141,7 @@ void TransRotation()
 	cout << "hello transrotation" << endl;
 
 	Vector3 a(10, 0, 0), b;
-	Matrix3x3 M;
+	Matrix4x3 M;
 	M.setRotate(3, kPiOver2);
 	print_m(M);
 
@@ -166,7 +166,7 @@ void TransScale()
 	Vector3 a(10, 20, 30), b;
 	print_v(a);
 
-	Matrix3x3 M;
+	Matrix4x3 M;
 	Vector3 s(1, 2, 3);
 	M.setupScale(s);
 	print_m(M);
@@ -180,7 +180,7 @@ void TransProject()
 	Vector3 a(10, 20, 30), b;
 	print_v(a);
 
-	Matrix3x3 M;
+	Matrix4x3 M;
 
 	Vector3 n(0, 0, 1);
 	M.setupProject(n);
@@ -196,17 +196,17 @@ void TransRelfect()
 	Vector3 a(10, 20, 30), b;
 	print_v(a);
 
-	Matrix3x3 M;
+	Matrix4x3 M;
 
-	M.setupReflect(1);
+	M.setupReflect(1, 1);
 	b = a * M;
 	print_v(b);
 
-	M.setupReflect(2);
+	M.setupReflect(2, 1);
 	b = a * M;
 	print_v(b);
 
-	M.setupReflect(3);
+	M.setupReflect(3, 1);
 	b = a * M;
 	print_v(b);
 
@@ -222,7 +222,7 @@ void TransShear()
 
 	Vector3 a(10, 20, 30), b;
 
-	Matrix3x3 M;
+	Matrix4x3 M;
 
 	M.setupShear(1, 1, 2);//用x切边y和z(10,20+1*10=30,30+2*10=50)
 	b = a * M;
@@ -233,7 +233,7 @@ void Determinant()
 {
 	cout << "hello Determinant" << endl;
 
-	Matrix3x3 m;
+	Matrix4x3 m;
 	m.m11 = 3; m.m12 = -2; m.m13 = 0;
 	m.m21 = 1; m.m22 = 4; m.m23 = -3;
 	m.m31 = -1; m.m32 = 0; m.m33 = 2;
@@ -246,15 +246,15 @@ void Inverse()
 {
 	cout << "hello Matrix Inverse" << endl;
 
-	Matrix3x3 m;
+	Matrix4x3 m;
 	m.m11 = -4; m.m12 = -3; m.m13 = 3;
 	m.m21 = 0; m.m22 = 2; m.m23 = -2;
 	m.m31 = 1; m.m32 = 4; m.m33 = -1;
 
-	Matrix3x3 r = inverse(m);
+	Matrix4x3 r = inverse(m);
 	print_m(r);
 
-	Matrix3x3 a = m * r;//(矩阵)和(矩阵的逆)相乘得到单位矩阵。
+	Matrix4x3 a = m * r;//(矩阵)和(矩阵的逆)相乘得到单位矩阵。
 	print_m(a);
 }
 

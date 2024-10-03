@@ -1,0 +1,247 @@
+#include "Vector3.h"
+#include "Matrix4x3.h"
+#include "MathUtil.h"
+#include "assert.h"
+
+void Matrix4x3::zeroTranslation()
+{
+	tx = ty = tz = 0.0f;
+}
+
+void Matrix4x3::setTranslation(const Vector3& d)
+{
+	tx = d.x;
+	ty = d.y;
+	tz = d.z;
+}
+
+void Matrix4x3::setupTranslation(const Vector3& d)
+{
+	m11 = 1.0f; m12 = 0.0f; m13 = 0.0f;
+	m21 = 0.0f; m22 = 1.0f; m23 = 0.0f;
+	m31 = 0.0f; m32 = 0.0f, m33 = 1.0f;
+
+	tx = d.x; ty = d.y; tz = d.z;
+}
+
+void Matrix4x3::setupShear(int axis, float s, float t)
+{
+	switch (axis)
+	{
+	case 1://用x切边y,z
+		m11 = 1.0f; m12 = s, m13 = t;
+		m21 = 0.0f; m22 = 1.0f; m23 = 0.0f;
+		m31 = 0.0f; m32 = 0.0f; m33 = 1.0f;
+		break;
+	case 2://用y切边x,z
+		m11 = 1.0f; m12 = 0.0f, m13 = 0.0f;
+		m21 = s;	m22 = 1.0f; m23 = t;
+		m31 = 0.0f; m32 = 0.0f; m33 = 1.0f;
+		break;
+	case 3://用z切边x,y
+		m11 = 1.0f; m12 = 0.0f, m13 = 0.0f;
+		m21 = 0.0f; m22 = 1.0f; m23 = 0.0f;
+		m31 = s;	m32 = t;	m33 = 1.0f;
+		break;
+	default:
+		assert(false);
+		break;
+	}
+	tx = ty = tz = 0.0f;
+}
+
+void Matrix4x3::setupReflect(const Vector3& n)
+{
+	assert(fabs(n * n - 1.0f) < 0.01f);
+
+	float ax = -2.0f * n.x;
+	float ay = -2.0f * n.y;
+	float az = -2.0f * n.z;
+
+	m11 = 1.0f + ax * n.x;	m12 = ax * n.y;			m13 = ax * n.z;
+	m21 = m12;			m22 = 1.0f + ay * n.y;	m23 = ay * n.z;
+	m31 = m13;			m32 = m23;			m33 = 1.0f + az * n.z;
+	tx = ty = tz = 0.0f;
+}
+
+void Matrix4x3::setupReflect(int axis, float k)
+{
+	switch (axis)
+	{
+	case 1://x坐标=k平面发生镜像
+		m11 = -1.0f; m12 = 0.0f, m13 = 0.0f;
+		m21 = 0.0f; m22 = 1.0f, m23 = 0.0f;
+		m31 = 0.0f; m32 = 0.0f; m33 = 1.0f;
+		tx = 2.0f * k;
+		ty = 0.0f;
+		tz = 0.0f;
+		break;
+	case 2://y坐标=k平面发生镜像
+		m11 = 1.0f; m12 = 0.0f, m13 = 0.0f;
+		m21 = 0.0f; m22 = -1.0f, m23 = 0.0f;
+		m31 = 0.0f; m32 = 0.0f; m33 = 1.0f;
+		tx = 0.0f;
+		ty = 2.0f * k;
+		tz = 0.0f;
+		break;
+	case 3://z坐标=k平面发生镜像
+		m11 = 1.0f; m12 = 0.0f, m13 = 0.0f;
+		m21 = 0.0f; m22 = 1.0f, m23 = 0.0f;
+		m31 = 0.0f; m32 = 0.0f; m33 = -1.0f;
+		tx = 0.0f;
+		ty = 0.0f;
+		tz = 2.0f * k;
+		break;
+	default:
+		assert(false);
+		break;
+	}
+	tx = ty = tz = 0.0f;
+}
+
+void Matrix4x3::setupProject(const Vector3& n)
+{
+	assert(fabs(n * n - 1.0f) < 0.001);
+
+	m11 = 1.0f - n.x * n.x; m12 = -n.x * n.y;		m13 = -n.x * n.z;
+	m21 = m12;				m22 = 1.0f - n.y * n.y; m23 = -n.y * n.z;
+	m31 = m13;				m32 = m23;				m33 = 1.0f - n.z * n.z;
+	tx = ty = tz = 0.0f;
+}
+
+void Matrix4x3::setupScale(const Vector3& s)
+{
+	m11 = s.x, m12 = 0.0f, m13 = 0.0f;
+	m21 = 0.0f, m22 = s.y, m23 = 0.0f;
+	m31 = 0.0f, m32 = 0.0f, m33 = s.z;
+	tx = ty = tz = 0.0f;
+}
+
+// axis
+// 1->x轴
+// 2->y轴
+// 3->z轴
+void Matrix4x3::setRotate(int axis, float theta)
+{
+	float s, c;
+	sinCos(&s, &c, theta);
+
+	switch (axis)
+	{
+	case 1:
+		m11 = 1.0f, m12 = 0.0f, m13 = 0.0f;
+		m21 = 0.0f, m22 = c, m23 = s;
+		m31 = 0.0f, m32 = -s, m33 = c;
+		break;
+	case 2:
+		m11 = c, m12 = 0.0f, m13 = -s;
+		m21 = 0.0f, m22 = 1.0f, m23 = 0.0f;
+		m31 = s, m32 = 0.0f, m33 = c;
+		break;
+	case 3:
+		m11 = c, m12 = s, m13 = 0.0f;
+		m21 = -s, m22 = c, m23 = 0.0f;
+		m31 = 0.0f, m32 = 0.0f, m33 = 1.0f;
+		break;
+	default:
+		assert(false);
+		break;
+	}
+	tx = ty = tz = 0.0f;
+}
+
+Matrix4x3 operator*(const Matrix4x3& a, const Matrix4x3& b)
+{
+	Matrix4x3 r;
+
+	r.m11 = a.m11 * b.m11 + a.m12 * b.m21 + a.m13 * b.m31;
+	r.m12 = a.m11 * b.m12 + a.m12 * b.m22 + a.m13 * b.m32;
+	r.m13 = a.m11 * b.m13 + a.m12 * b.m23 + a.m13 * b.m33;
+
+	r.m21 = a.m21 * b.m11 + a.m22 * b.m21 + a.m23 * b.m31;
+	r.m22 = a.m21 * b.m12 + a.m22 * b.m22 + a.m23 * b.m32;
+	r.m23 = a.m21 * b.m11 + a.m22 * b.m23 + a.m23 * b.m33;
+
+	r.m31 = a.m31 * b.m11 + a.m32 * b.m21 + a.m33 * b.m31;
+	r.m32 = a.m31 * b.m12 + a.m32 * b.m22 + a.m33 * b.m32;
+	r.m33 = a.m31 * b.m13 + a.m32 * b.m23 + a.m33 * b.m33;
+
+	r.tx = a.tx * b.m11 + a.ty * b.m21 + a.tz * b.m31 + b.tx;
+	r.ty = a.ty * b.m12 + a.ty * b.m22 + a.tz * b.m32 + b.ty;
+	r.tz = a.tz * b.m13 + a.ty * b.m23 + a.tz * b.m33 + b.tz;
+
+	return r;
+}
+
+Matrix4x3& operator *=(Matrix4x3& a, const Matrix4x3& m)
+{
+	a = a * m;
+	return a;
+}
+
+Vector3 operator*(const Vector3& p, const Matrix4x3& m)
+{
+	return Vector3(
+		p.x * m.m11 + p.y * m.m21 + p.z * m.m31,
+		p.x * m.m12 + p.y * m.m22 + p.z * m.m32,
+		p.x * m.m13 + p.y * m.m23 + p.z * m.m33
+	);
+}
+
+
+Vector3& operator *=(Vector3& p, const Matrix4x3& m)
+{
+	p = p * m;
+	return p;
+}
+
+
+Vector3 operator*(const Matrix4x3& m, const Vector3& p)
+{
+	return Vector3(
+		p.x * m.m11 + p.y * m.m12 + p.z * m.m13,
+		p.x * m.m21 + p.y * m.m22 + p.z * m.m23,
+		p.x * m.m31 + p.y * m.m32 + p.z * m.m33
+	);
+}
+
+Vector3& operator *=(const Matrix4x3& m, Vector3& p)
+{
+	p = m * p;
+	return p;
+}
+
+float determinant(const Matrix4x3& m)
+{
+	return m.m11 * (m.m22 * m.m33 - m.m23 * m.m32)
+		+ m.m12 * (m.m23 * m.m31 - m.m21 * m.m33)
+		+ m.m13 * (m.m21 * m.m32 - m.m22 * m.m31);
+}
+
+Matrix4x3 inverse(const Matrix4x3& m)
+{
+	float det = determinant(m);
+	assert(fabs(det) > 0.00001f);
+	float oneOverDet = 1.0f / det;
+
+	Matrix4x3 r;
+
+	r.m11 = (m.m22 * m.m33 - m.m23 * m.m32) * oneOverDet;
+	r.m12 = (m.m13 * m.m32 - m.m12 * m.m33) * oneOverDet;
+	r.m13 = (m.m12 * m.m23 - m.m22 * m.m13) * oneOverDet;
+
+	r.m21 = (m.m31 * m.m23 - m.m21 * m.m33) * oneOverDet;
+	r.m22 = (m.m11 * m.m33 - m.m31 * m.m13) * oneOverDet;
+	r.m23 = (m.m21 * m.m13 - m.m11 * m.m23) * oneOverDet;
+
+	r.m31 = (m.m21 * m.m32 - m.m31 * m.m22) * oneOverDet;
+	r.m32 = (m.m31 * m.m12 - m.m11 * m.m32) * oneOverDet;
+	r.m33 = (m.m11 * m.m22 - m.m12 * m.m21) * oneOverDet;
+
+	return r;
+}
+
+Vector3 getTranslation(const Matrix4x3& m)
+{
+	return Vector3(m.tx, m.ty, m.tz);
+}

@@ -18,10 +18,10 @@
     <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Matrix3x3.h">
+    <ClCompile Include="Matrix4x3.h">
       <Filter>头文件</Filter>
     </ClCompile>
-    <ClCompile Include="Matrix3x3.cpp">
+    <ClCompile Include="Matrix4x3.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
