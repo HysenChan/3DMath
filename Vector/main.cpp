@@ -3,6 +3,7 @@
 #include"Matrix4x3.h"
 #include"MathUtil.h"
 #include"RotationMatrix.h"
+#include"EulerAngles.h"
 
 using namespace std;
 
@@ -276,6 +277,44 @@ void RotationMatrixFunc()
 	print_v(v2);
 }
 
+void print_e(EulerAngles e)
+{
+	//弧度转角度：弧度*180/PI
+	//角度转弧度：角度*PI/180
+	cout << "e.heading:" << e.heading * 180 / kPi << ",e.pitch:" << e.pitch * 180 / kPi << ",e.bank:" << e.bank * 180 / kPi << endl;
+}
+
+void EulerRotationFunc()
+{
+	cout << "欧拉角" << endl;
+
+	/*RotationMatrix m;
+
+	m.setup(EulerAngles(30 * kPi / 180, 0, 0));
+
+	Vector3 v(10, 20, 30);
+	Vector3 v2;
+	v2 = m.inertialToObject(v);
+	print_v(v2);
+	v2 = m.objectToInertial(v);
+	print_v(v2);*/
+
+	EulerAngles e;
+
+	Matrix4x3 m;
+	m.m11 = 0.866f; m.m12 = 0.0f; m.m13 = -0.5f;
+	m.m21 = 0.0f; m.m22 = 1.0f; m.m23 = 0.0f;
+	m.m31 = 0.5f; m.m32 = 0.0f; m.m33 = 0.866f;
+
+	print_m(m);
+	e.fromObjectToWorldMatrix(m);
+	print_m(m);
+	print_e(e);
+	e.fromWorldToObjectMatrix(m);
+	print_m(m);
+	print_e(e);
+}
+
 int main()
 {
 	//Vector();
@@ -296,7 +335,11 @@ int main()
 
 	//行列式 end
 
-	RotationMatrixFunc();
+	//旋转的三种表示方法
+	//RotationMatrixFunc();//1.矩阵
+	EulerRotationFunc();//2.欧拉角
+
+	//旋转的三种表示方法 end
 
 	system("pause");
 	return 0;

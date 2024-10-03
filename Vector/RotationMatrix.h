@@ -1,5 +1,7 @@
 #pragma once
 #include"Vector3.h"
+//#include"EulerAngles.h"
+class EulerAngles;
 class RotationMatrix
 {
 public:
@@ -8,6 +10,8 @@ public:
 	float m31, m32, m33;
 
 	void identity();
+
+	void setup(const EulerAngles& orientation);
 
 	Vector3 inertialToObject(const Vector3& v)const;//惯性坐标系-》物体坐标系
 	Vector3 objectToInertial(const Vector3& v)const;//物体坐标系-》惯性坐标系
