@@ -144,11 +144,13 @@
     <ClCompile Include="MathUtil.cpp" />
     <ClCompile Include="Matrix4x3.cpp" />
     <ClCompile Include="Matrix4x3.h" />
+    <ClCompile Include="Quaternion.cpp" />
     <ClCompile Include="RotationMatrix.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EulerAngles.h" />
     <ClInclude Include="MathUtil.h" />
+    <ClInclude Include="Quaternion.h" />
     <ClInclude Include="RotationMatrix.h" />
     <ClInclude Include="Vector3.h" />
   </ItemGroup>
