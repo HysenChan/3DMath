@@ -43,7 +43,7 @@ void EulerAngles::fromObjectToWorldMatrix(const Matrix4x3& m)
 	{
 		pitch = kPiOver2 * sp;
 		bank = 0.0f;
-		heading = atan2(-m.m13, m.m11);
+		heading = atan2(-m.m31, m.m11);
 	}
 	else
 	{
@@ -62,7 +62,7 @@ void EulerAngles::fromWorldToObjectMatrix(const Matrix4x3& m)
 	{
 		pitch = kPiOver2 * sp;
 		bank = 0.0f;
-		heading = atan2(-m.m31, m.m11);
+		heading = atan2(-m.m13, m.m11);
 	}
 	else
 	{

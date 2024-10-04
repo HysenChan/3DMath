@@ -4,9 +4,9 @@
 class EulerAngles
 {
 public:
-	float heading;
-	float pitch;
-	float bank;
+	float heading;//»∆y÷·-Yaw
+	float pitch;//»∆x÷·
+	float bank;//»∆z÷·-Roll
 
 	EulerAngles() {}
 

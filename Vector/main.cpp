@@ -281,7 +281,7 @@ void print_e(EulerAngles e)
 {
 	//»¡¶È×ª½Ç¶È£º»¡¶È*180/PI
 	//½Ç¶È×ª»¡¶È£º½Ç¶È*PI/180
-	cout << "e.heading:" << e.heading * 180 / kPi << ",e.pitch:" << e.pitch * 180 / kPi << ",e.bank:" << e.bank * 180 / kPi << endl;
+	cout << "e.pitch(x):" << e.pitch * 180 / kPi << ",e.heading(y): " << e.heading * 180 / kPi << ", e.bank(z): " << e.bank * 180 / kPi << endl;
 }
 
 void EulerRotationFunc()
@@ -299,20 +299,46 @@ void EulerRotationFunc()
 	v2 = m.objectToInertial(v);
 	print_v(v2);*/
 
-	EulerAngles e;
+	EulerAngles ex,ey,ez;
 
-	Matrix4x3 m;
-	m.m11 = 0.866f; m.m12 = 0.0f; m.m13 = -0.5f;
-	m.m21 = 0.0f; m.m22 = 1.0f; m.m23 = 0.0f;
-	m.m31 = 0.5f; m.m32 = 0.0f; m.m33 = 0.866f;
+	Matrix4x3 mx, my, mz;
 
-	print_m(m);
-	e.fromObjectToWorldMatrix(m);
-	print_m(m);
-	print_e(e);//-30¡ã
-	e.fromWorldToObjectMatrix(m);
-	print_m(m);
-	print_e(e);//30¡ã
+	cout << "----------ÈÆxÖá--------" << endl;
+	mx.m11 = 1.0f; mx.m12 = 0.0f; mx.m13 = 0.0f;//mx.m23ºÍmx.m32·ûºÅ¶Ô»»
+	mx.m21 = 0.0f; mx.m22 = 0.866f; mx.m23 = -0.5f;
+	mx.m31 = 0.0f; mx.m32 = 0.5f; mx.m33 = 0.866f;
+	print_m(mx);
+	ex.fromObjectToWorldMatrix(mx);
+	print_m(mx);
+	print_e(ex);//(30¡ã,0,0)
+	ex.fromWorldToObjectMatrix(mx);
+	print_m(mx);
+	print_e(ex);//(-30¡ã,0,0)
+	cout << "----------ÈÆxÖá end--------" << endl;
+	cout << "----------ÈÆyÖá--------" << endl;
+	my.m11 = 0.866f; my.m12 = 0.0f; my.m13 = -0.5f;
+	my.m21 = 0.0f; my.m22 = 1.0f; my.m23 = 0.0f;
+	my.m31 = 0.5f; my.m32 = 0.0f; my.m33 = 0.866f;
+	print_m(my);
+	ey.fromObjectToWorldMatrix(my);
+	print_m(my);
+	print_e(ey);//(0,-30¡ã,0)
+	ey.fromWorldToObjectMatrix(my);
+	print_m(my);
+	print_e(ey);//(0,30¡ã,0)
+	cout << "----------ÈÆyÖá end--------" << endl;
+	cout << "----------ÈÆzÖá--------" << endl;
+	mz.m11 = 0.866f; mz.m12 = -0.5f; mz.m13 = 0.0f;//mz.m12ºÍmz.m21·ûºÅ¶Ô»»
+	mz.m21 = 0.5f; mz.m22 = 0.866f; mz.m23 = 0.0f;
+	mz.m31 = 0.0f; mz.m32 = 0.0f; mz.m33 = 1.0f;
+	print_m(mz);
+	ez.fromObjectToWorldMatrix(mz);
+	print_m(mz);
+	print_e(ez);//(0,0,30¡ã)
+	ez.fromWorldToObjectMatrix(mz);
+	print_m(mz);
+	print_e(ez);//(0,0,-30¡ã)
+	cout << "----------ÈÆzÖá end--------" << endl;
 }
 
 int main()
