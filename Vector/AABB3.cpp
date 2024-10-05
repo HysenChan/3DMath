@@ -158,7 +158,6 @@ void AABB3::setToTransformedBox(const AABB3& box, const Matrix4x3& m)
 		min.z += m.m33 * box.max.z;
 		max.z += m.m33 * box.min.z;
 	}
-
 }
 
 Vector3 AABB3::closestPointTo(const Vector3& p) const

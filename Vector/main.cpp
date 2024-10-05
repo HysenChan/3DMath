@@ -7,6 +7,25 @@
 
 using namespace std;
 
+int classifySpherePlane(
+	const Vector3& planeNormal,
+	float planeD,
+	const Vector3& sphereCenter,
+	float sphereRadius)
+{
+	float d = planeNormal * sphereCenter - planeD;
+
+	if (d >= sphereRadius)
+	{
+		return 1;
+	}
+	if (d <= -sphereRadius)
+	{
+		return -1;
+	}
+	return 0;//Ïà½»
+}
+
 bool isConvex(int n, const Vector3 v1[])
 {
 	float angleSum = 0.0f;
