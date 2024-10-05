@@ -235,3 +235,51 @@ Quaternion pow(const Quaternion& q, float exponent)
 
 	return result;
 }
+
+Quaternion slerp(const Quaternion& q0, const Quaternion& q1, float t)
+{
+	if (t <= 0.0f) return q0;
+	if (t >= 1.0f) return q1;
+
+	float cosOmega = dotProduct(q0, q1);
+
+	float q1w = q1.w;
+	float q1x = q1.x;
+	float q1y = q1.y;
+	float q1z = q1.z;
+
+	if (cosOmega < 0.0f)
+	{
+		q1w = -q1w;
+		q1x = -q1x;
+		q1y = -q1y;
+		q1z = -q1z;
+		cosOmega = -cosOmega;
+	}
+
+	float k0, k1;
+	if (cosOmega > 0.9999f)
+	{
+		k0 = 1.0f - t;
+		k1 = t;
+	}
+	else
+	{
+		float sinOmega = sqrt(1.0f - cosOmega * cosOmega);
+
+		float omega = atan2(sinOmega, cosOmega);
+
+		float oneOverSinOmega = 1.0f / sinOmega;
+
+		k0 = (sin(1.0f - t) * omega) * oneOverSinOmega;
+		k1 = sin(t * omega) * oneOverSinOmega;
+	}
+
+	Quaternion result;
+	result.x = k0 * q0.x + k1 * q1x;
+	result.y = k0 * q0.y + k1 * q1y;
+	result.z = k0 * q0.z + k1 * q1z;
+	result.w = k0 * q0.w + k1 * q1w;
+
+	return result;
+}

@@ -33,3 +33,4 @@ extern const Quaternion kQuaternionIdentity;
 extern float dotProduct(const Quaternion& a, const Quaternion& b);//四元数点乘
 extern Quaternion conjugate(const Quaternion& q);//四元数共轭
 extern Quaternion pow(const Quaternion& q, float exponent);//四元数的幂
+extern Quaternion slerp(const Quaternion& q0, const Quaternion& q1, float t);//四元数插值
