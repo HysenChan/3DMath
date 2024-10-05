@@ -4,6 +4,7 @@
 #include"MathUtil.h"
 #include"RotationMatrix.h"
 #include"EulerAngles.h"
+#include "EditTriMesh.h"
 
 using namespace std;
 
@@ -485,6 +486,10 @@ int main()
 	//EulerRotationFunc();//2.欧拉角
 
 	//旋转的三种表示方法 end
+
+	EditTriMesh mesh;
+	mesh.addTri();
+	mesh.addVertex();
 
 	system("pause");
 	return 0;
