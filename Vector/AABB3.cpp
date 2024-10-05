@@ -160,3 +160,49 @@ void AABB3::setToTransformedBox(const AABB3& box, const Matrix4x3& m)
 	}
 
 }
+
+Vector3 AABB3::closestPointTo(const Vector3& p) const
+{
+	Vector3 r;
+
+	if (p.x < min.x)
+	{
+		r.x = min.x;
+	}
+	else if (p.x > max.x)
+	{
+		r.x = max.x;
+	}
+	else
+	{
+		r.x = p.x;
+	}
+
+	if (p.y < min.y)
+	{
+		r.y = min.y;
+	}
+	else if (p.y > max.y)
+	{
+		r.y = max.y;
+	}
+	else
+	{
+		r.y = p.y;
+	}
+
+	if (p.z < min.z)
+	{
+		r.z = min.z;
+	}
+	else if (p.z > max.z)
+	{
+		r.z = max.z;
+	}
+	else
+	{
+		r.z = p.z;
+	}
+
+	return r;
+}

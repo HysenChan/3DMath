@@ -22,4 +22,6 @@ public:
 	void add(const AABB3& box);
 
 	void setToTransformedBox(const AABB3& box, const Matrix4x3& m);//变换AABB
+
+	Vector3 closestPointTo(const Vector3& p)const;//返回AABB距离输入点最近的点
 };
