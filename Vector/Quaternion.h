@@ -1,5 +1,7 @@
 #pragma once
 #include"Vector3.h"
+
+class RotationMatrix;
 class Quaternion
 {
 public:
@@ -19,6 +21,8 @@ public:
 	Quaternion& operator *=(const Quaternion& a);//重载*做四元数的叉乘
 
 	void normalize();//四元数规范化操作
+
+	void fromRotationMatrix(const RotationMatrix& m);//从旋转矩阵到四元数
 };
 
 extern const Quaternion kQuaternionIdentity;

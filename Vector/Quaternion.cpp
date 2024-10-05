@@ -2,6 +2,7 @@
 #include<math.h>
 #include<assert.h>
 #include"MathUtil.h"
+#include"RotationMatrix.h"
 
 const Quaternion kQuaternionIdentity = { 1.0f,0.0f,0.0f,0.0f };
 
@@ -95,6 +96,77 @@ void Quaternion::normalize()
 	{
 		assert(false);
 		identity();
+	}
+}
+
+void Quaternion::fromRotationMatrix(const RotationMatrix& m)
+{
+	float m11 = m.m11;
+	float m12 = m.m12;
+	float m13 = m.m13;
+
+	float m21 = m.m21;
+	float m22 = m.m22;
+	float m23 = m.m23;
+
+	float m31 = m.m31;
+	float m32 = m.m32;
+	float m33 = m.m33;
+
+	float fourWSquaredMinusl = m11 + m22 + m33;
+	float fourXSquaredMinusl = m11 - m22 - m33;
+	float fourYSquaredMinusl = -m11 + m22 - m33;
+	float fourZSquaredMinusl = -m11 - m22 + m33;
+
+	int biggestIndex = 0;
+	float fourBiggestSquaredMinusl1 = fourWSquaredMinusl;
+	if (fourXSquaredMinusl > fourBiggestSquaredMinusl1)
+	{
+		fourBiggestSquaredMinusl1 = fourXSquaredMinusl;
+		biggestIndex = 1;
+	}
+	if (fourYSquaredMinusl > fourBiggestSquaredMinusl1)
+	{
+		fourBiggestSquaredMinusl1 = fourYSquaredMinusl;
+		biggestIndex = 2;
+	}
+	if (fourZSquaredMinusl > fourBiggestSquaredMinusl1)
+	{
+		fourBiggestSquaredMinusl1 = fourZSquaredMinusl;
+		biggestIndex = 3;
+	}
+
+	float biggestVal = sqrt(fourBiggestSquaredMinusl1 + 1.0f) * 0.5f;
+	float mult = 0.25 / biggestVal;
+
+	switch (biggestIndex)
+	{
+	case 0:
+		w = biggestVal;
+		x = (m23 - m32) * mult;
+		y = (m31 - m13) * mult;
+		z = (m12 - m21) * mult;
+		break;
+	case 1:
+		x = biggestVal;
+		w = (m23 - m32) * mult;
+		y = (m12 + m21) * mult;
+		z = (m31 + m13) * mult;
+		break;
+	case 2:
+		y = biggestVal;
+		w = (m31 - m13) * mult;
+		x = (m12 + m21) * mult;
+		z = (m23 + m32) * mult;
+		break;
+	case 3:
+		z = biggestVal;
+		w = (m12 - m21) * mult;
+		x = (m31 + m13) * mult;
+		y = (m23 + m32) * mult;
+		break;
+	default:
+		break;
 	}
 }
 
