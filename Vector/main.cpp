@@ -7,6 +7,27 @@
 
 using namespace std;
 
+class Line3D
+{
+public:
+	Vector3 origin;//线段的起点
+	Vector3 end;//线段的终点
+};
+
+class Ray3D
+{
+public:
+	Vector3 rayOrigin;//射线的起点
+	Vector3 rayDelta;//射线的增量
+};
+
+class Sphere
+{
+public:
+	Vector3 center;//球心
+	float radius;//半径
+};
+
 float to_zero(float n)
 {
 	return ((abs(n) < 0.00001) ? 0 : n);
@@ -379,7 +400,7 @@ int main()
 
 	//旋转的三种表示方法
 	//RotationMatrixFunc();//1.矩阵
-	EulerRotationFunc();//2.欧拉角
+	//EulerRotationFunc();//2.欧拉角
 
 	//旋转的三种表示方法 end
 
