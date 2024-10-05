@@ -339,6 +339,22 @@ void EulerRotationFunc()
 	print_m(mz);
 	print_e(ez);//(0,0,30¡ã)
 	cout << "----------ÈÆzÖá end--------" << endl;
+
+	EulerAngles eTest;
+
+	Matrix4x3 mTest;
+	cout << "----------ÈÆtestÖá--------" << endl;
+	mTest.m11 = 1.0f; mTest.m12 = 0.0f; mTest.m13 = 1.0f;//mTest.m12ºÍmTest.m21·ûºÅ¶Ô»»
+	mTest.m21 = 1.0f; mTest.m22 = 1.0f; mTest.m23 = 0.0f;
+	mTest.m31 = 1.0f; mTest.m32 = 1.0f; mTest.m33 = 1.0f;
+	print_m(mTest);
+	eTest.fromObjectToWorldMatrix(mTest);
+	print_m(mTest);
+	print_e(eTest);//(0,0,-30¡ã)
+	eTest.fromWorldToObjectMatrix(mTest);
+	print_m(mTest);
+	print_e(eTest);//(0,0,30¡ã)
+	cout << "----------ÈÆtestÖá end--------" << endl;
 }
 
 int main()
