@@ -310,10 +310,10 @@ void EulerRotationFunc()
 	print_m(mx);
 	ex.fromObjectToWorldMatrix(mx);
 	print_m(mx);
-	print_e(ex);//(30¡ã,0,0)
+	print_e(ex);//(-30¡ã,0,0)
 	ex.fromWorldToObjectMatrix(mx);
 	print_m(mx);
-	print_e(ex);//(-30¡ã,0,0)
+	print_e(ex);//(30¡ã,0,0)
 	cout << "----------ÈÆxÖá end--------" << endl;
 	cout << "----------ÈÆyÖá--------" << endl;
 	my.m11 = 0.866f; my.m12 = 0.0f; my.m13 = -0.5f;
@@ -322,10 +322,10 @@ void EulerRotationFunc()
 	print_m(my);
 	ey.fromObjectToWorldMatrix(my);
 	print_m(my);
-	print_e(ey);//(0,-30¡ã,0)
+	print_e(ey);//(0,30¡ã,0)
 	ey.fromWorldToObjectMatrix(my);
 	print_m(my);
-	print_e(ey);//(0,30¡ã,0)
+	print_e(ey);//(0,-30¡ã,0)
 	cout << "----------ÈÆyÖá end--------" << endl;
 	cout << "----------ÈÆzÖá--------" << endl;
 	mz.m11 = 0.866f; mz.m12 = -0.5f; mz.m13 = 0.0f;//mz.m12ºÍmz.m21·ûºÅ¶Ô»»
@@ -334,10 +334,10 @@ void EulerRotationFunc()
 	print_m(mz);
 	ez.fromObjectToWorldMatrix(mz);
 	print_m(mz);
-	print_e(ez);//(0,0,30¡ã)
+	print_e(ez);//(0,0,-30¡ã)
 	ez.fromWorldToObjectMatrix(mz);
 	print_m(mz);
-	print_e(ez);//(0,0,-30¡ã)
+	print_e(ez);//(0,0,30¡ã)
 	cout << "----------ÈÆzÖá end--------" << endl;
 }
 

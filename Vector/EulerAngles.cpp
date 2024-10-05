@@ -36,6 +36,25 @@ void EulerAngles::canonize()
 
 void EulerAngles::fromObjectToWorldMatrix(const Matrix4x3& m)
 {
+	float sp = -m.m32;
+
+	//¼ì²âÍòÏòËø
+	if (fabs(sp) > 0.99999f)
+	{
+		pitch = kPiOver2 * sp;
+		bank = 0.0f;
+		heading = atan2(-m.m23, m.m11);
+	}
+	else
+	{
+		heading = atan2(m.m31, m.m33);
+		pitch = asin(sp);
+		bank = atan2(m.m12, m.m22);
+	}
+}
+
+void EulerAngles::fromWorldToObjectMatrix(const Matrix4x3& m)
+{
 	float sp = -m.m23;
 
 	//¼ì²âÍòÏòËø
@@ -50,25 +69,6 @@ void EulerAngles::fromObjectToWorldMatrix(const Matrix4x3& m)
 		heading = atan2(m.m13, m.m33);
 		pitch = asin(sp);
 		bank = atan2(m.m21, m.m22);
-	}
-}
-
-void EulerAngles::fromWorldToObjectMatrix(const Matrix4x3& m)
-{
-	float sp = -m.m32;
-
-	//¼ì²âÍòÏòËø
-	if (fabs(sp) > 0.99999f)
-	{
-		pitch = kPiOver2 * sp;
-		bank = 0.0f;
-		heading = atan2(-m.m13, m.m11);
-	}
-	else
-	{
-		heading = atan2(m.m31, m.m33);
-		pitch = asin(sp);
-		bank = atan2(m.m12, m.m22);
 	}
 }
 
