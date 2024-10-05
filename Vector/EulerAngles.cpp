@@ -1,5 +1,6 @@
 #include"EulerAngles.h"
 #include"MathUtil.h"
+#include"Quaternion.h"
 
 //heading	-180бу ~ +180бу
 //bank		-180бу ~ +180бу
@@ -88,5 +89,41 @@ void EulerAngles::fromRotationMatrix(const RotationMatrix& m)
 		heading = atan2(m.m13, m.m33);
 		pitch = asin(sp);
 		bank = atan2(m.m21, m.m22);
+	}
+}
+
+void EulerAngles::fromObjectToInertialQuaternion(const Quaternion& q)
+{
+	float sp = -2.0f * (q.y * q.z - q.w * q.x);
+
+	if (fabs(sp) > 0.9999f)
+	{
+		pitch = kPiOver2 * sp;
+		heading = atan2(-q.x * q.z + q.w * q.y, 0.5f - q.y * q.y - q.z * q.z);
+		bank = 0.0f;
+	}
+	else
+	{
+		pitch = asin(sp);
+		heading = atan2(q.x * q.z + q.w * q.y, 0.5f - q.x * q.x - q.y * q.y);
+		bank = atan2(q.x * q.y + q.w * q.z, 0.5f - q.x * q.x - q.z * q.z);
+	}
+}
+
+void EulerAngles::fromInertialToObjectQuaternion(const Quaternion& q)
+{
+	float sp = -2.0f * (q.y * q.z + q.w * q.x);
+
+	if (fabs(sp) > 0.9999f)
+	{
+		pitch = kPiOver2 * sp;
+		heading = atan2(-q.x * q.z - q.w * q.y, 0.5f - q.y * q.y - q.z * q.z);
+		bank = 0.0f;
+	}
+	else
+	{
+		pitch = asin(sp);
+		heading = atan2(q.x * q.z - q.w * q.y, 0.5f - q.x * q.x - q.y * q.y);
+		bank = atan2(q.x * q.y - q.w * q.z, 0.5f - q.x * q.x - q.z * q.z);
 	}
 }

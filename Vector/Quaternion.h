@@ -2,6 +2,7 @@
 #include"Vector3.h"
 
 class RotationMatrix;
+class EulerAngles;
 class Quaternion
 {
 public:
@@ -23,6 +24,9 @@ public:
 	void normalize();//四元数规范化操作
 
 	void fromRotationMatrix(const RotationMatrix& m);//从旋转矩阵到四元数
+
+	void setToRotateObjectToInertial(const EulerAngles& orientation);//从欧拉角到四元数（物体坐标系-》惯性坐标系）
+	void setToRotateInertialToObject(const EulerAngles& orientation);//从欧拉角到四元数（惯性坐标系-》物体坐标系）
 };
 
 extern const Quaternion kQuaternionIdentity;

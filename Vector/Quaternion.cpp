@@ -3,6 +3,7 @@
 #include<assert.h>
 #include"MathUtil.h"
 #include"RotationMatrix.h"
+#include"EulerAngles.h"
 
 const Quaternion kQuaternionIdentity = { 1.0f,0.0f,0.0f,0.0f };
 
@@ -168,6 +169,34 @@ void Quaternion::fromRotationMatrix(const RotationMatrix& m)
 	default:
 		break;
 	}
+}
+
+void Quaternion::setToRotateObjectToInertial(const EulerAngles& orientation)
+{
+	float sp, sb, sh;
+	float cp, cb, ch;
+	sinCos(&sp, &cp, orientation.pitch * 0.5f);
+	sinCos(&sb, &cb, orientation.bank * 0.5f);
+	sinCos(&sh, &ch, orientation.heading * 0.5f);
+
+	w = ch * cp * cb + sh * sp * sb;
+	x = ch * sp * cb + sh * cp * sb;
+	y = sh * cp * cb - ch * sp * sb;
+	z = ch * cp * sb - sh * sp * cb;
+}
+
+void Quaternion::setToRotateInertialToObject(const EulerAngles& orientation)
+{
+	float sp, sb, sh;
+	float cp, cb, ch;
+	sinCos(&sp, &cp, orientation.pitch * 0.5f);
+	sinCos(&sb, &cb, orientation.bank * 0.5f);
+	sinCos(&sh, &ch, orientation.heading * 0.5f);
+
+	w = ch * cp * cb + sh * sp * sb;
+	x = -ch * sp * cb - sh * cp * sb;
+	y = ch * sp * sb - sh * cp * cb;
+	z = sh * sp * cb - ch * cp * sb;
 }
 
 float dotProduct(const Quaternion& a, const Quaternion& b)
