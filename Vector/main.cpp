@@ -7,6 +7,47 @@
 
 using namespace std;
 
+bool isConvex(int n, const Vector3 v1[])
+{
+	float angleSum = 0.0f;
+
+	for (int i = 0; i < n; ++i)
+	{
+		Vector3 e1;
+		if (i == 0)
+		{
+			e1 = v1[n - 1] - v1[i];
+		}
+		else
+		{
+			e1 = v1[i - 1] - v1[i];
+		}
+
+		Vector3 e2;
+		if (i == n - 1)
+		{
+			e2 = v1[0] - v1[i];
+		}
+		else
+		{
+			e2 = v1[i + 1] - v1[i];
+		}
+
+		e1.normalize();
+		e2.normalize();
+		float dot = e1 * e2;
+		float theta = safeAcos(dot);
+		angleSum += theta;
+
+	}
+	float convexAngleSum = (float)(n - 2) * kPi;
+	if (angleSum < convexAngleSum - (float)n * 0.0001f)
+	{
+		return false;
+	}
+	return true;
+}
+
 class Line3D
 {
 public:
@@ -320,7 +361,7 @@ void EulerRotationFunc()
 	v2 = m.objectToInertial(v);
 	print_v(v2);*/
 
-	EulerAngles ex,ey,ez;
+	EulerAngles ex, ey, ez;
 
 	Matrix4x3 mx, my, mz;
 
@@ -376,6 +417,28 @@ void EulerRotationFunc()
 	print_m(mTest);
 	print_e(eTest);//(0,0,30°)
 	cout << "----------绕test轴 end--------" << endl;
+}
+
+//计算多于3个点的最佳法向量
+Vector3 computeBestFixNormal(const Vector3 v[], int n)
+{
+	Vector3 result = kZeroVector;
+
+	const Vector3* p = &v[n - 1];
+
+	for (int i = 0; i < n; ++i)
+	{
+		const Vector3* c = &v[i];
+		result.x += (p->z + c->z) * (p->y - c->y);
+		result.y += (p->x + c->x) * (p->z - c->z);
+		result.z += (p->y + c->y) * (p->x - c->x);
+
+		p = c;
+	}
+
+	result.normalize();
+
+	return result;
 }
 
 int main()

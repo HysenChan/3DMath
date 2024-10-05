@@ -107,3 +107,5 @@ inline Vector3 crossProduct(const Vector3& a, const Vector3& b)
 		a.x * b.y - a.y * b.x
 	);
 }
+
+extern const Vector3 kZeroVector;
