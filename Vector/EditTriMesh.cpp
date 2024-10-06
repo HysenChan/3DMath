@@ -23,6 +23,34 @@ EditTriMesh::~EditTriMesh()
 	empty();
 }
 
+EditTriMesh::Vertex& EditTriMesh::vertex(int vertexIndex)
+{
+	assert(vertexIndex >= 0);
+	assert(vertexIndex < vCount);
+	return vList[vertexIndex];
+}
+
+const EditTriMesh::Vertex& EditTriMesh::vertex(int vertexIndex) const
+{
+	assert(vertexIndex >= 0);
+	assert(vertexIndex < vCount);
+	return vList[vertexIndex];
+}
+
+EditTriMesh::Tri& EditTriMesh::tri(int triIndex)
+{
+	assert(triIndex >= 0);
+	assert(triIndex < tCount);
+	return tList[triIndex];
+}
+
+const EditTriMesh::Tri& EditTriMesh::tri(int triIndex) const
+{
+	assert(triIndex >= 0);
+	assert(triIndex < tCount);
+	return tList[triIndex];
+}
+
 void EditTriMesh::empty()
 {
 	if (vList != NULL)
@@ -154,6 +182,57 @@ int EditTriMesh::addVertex(const Vertex& v)
 	}
 	vList[r] = v;
 	return 0;
+}
+
+void EditTriMesh::computeOneTriNormal(Tri& t)
+{
+	const Vector3& v1 = vertex(t.v[0].index).p;
+	const Vector3& v2 = vertex(t.v[1].index).p;
+	const Vector3& v3 = vertex(t.v[2].index).p;
+
+	Vector3 e1 = v3 - v2;
+	Vector3 e2 = v1 - v3;
+
+	t.normal = crossProduct(e1, e2);
+	t.normal.normalize();
+}
+
+void EditTriMesh::computeOneTriNormal(int triIndex)
+{
+	computeOneTriNormal(tri(triIndex));
+}
+
+void EditTriMesh::computeTriNormals()
+{
+	for (int i = 0; i < triCount(); i++)
+	{
+		computeOneTriNormal(tri(i));
+	}
+}
+
+void EditTriMesh::computeVertexNormals()
+{
+	int i;
+	computeTriNormals();
+
+	for (i = 0; i < vertexCount(); i++)
+	{
+		vertex(i).normal.zero();
+	}
+
+	for (i = 0; i < triCount(); i++)
+	{
+		const Tri* t = &tri(i);
+		for (int j = 0; j < 3; j++)
+		{
+			vertex(t->v[j].index).normal += t->normal;
+		}
+	}
+
+	for (i = 0; i < vertexCount(); i++)
+	{
+		vertex(i).normal.normalize();
+	}
 }
 
 void EditTriMesh::construct()

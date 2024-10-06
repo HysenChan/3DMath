@@ -33,6 +33,15 @@ public:
 
 	EditTriMesh();
 	~EditTriMesh();
+
+	int vertexCount() const { return vCount; }
+	int triCount() const { return tCount; }
+
+	Vertex& vertex(int vertexIndex);
+	const Vertex& vertex(int vertexIndex)const;
+	Tri& tri(int triIndex);
+	const Tri& tri(int triIndex)const;
+
 	void empty();
 	void setTriCount(int tc);
 	void setVertexCount(int vc);
@@ -40,6 +49,11 @@ public:
 	int addTri(const Tri& t);
 	int addVertex();//增加顶点
 	int addVertex(const Vertex& v);
+
+	void computeOneTriNormal(Tri& t);//计算三角形法向量
+	void computeOneTriNormal(int triIndex);
+	void computeTriNormals();//计算所有三角形法向量
+	void computeVertexNormals();//计算所有顶点法向量
 private:
 	int vAlloc;
 	int vCount;
