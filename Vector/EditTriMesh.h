@@ -50,6 +50,8 @@ public:
 	int addVertex();//增加顶点
 	int addVertex(const Vertex& v);
 
+	void detachAllFaces();//面拆分
+
 	void computeOneTriNormal(Tri& t);//计算三角形法向量
 	void computeOneTriNormal(int triIndex);
 	void computeTriNormals();//计算所有三角形法向量

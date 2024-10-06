@@ -184,6 +184,43 @@ int EditTriMesh::addVertex(const Vertex& v)
 	return 0;
 }
 
+void EditTriMesh::detachAllFaces()
+{
+	if (triCount() < 1)
+	{
+		return;
+	}
+
+	int newVertexCount = triCount() * 3;
+
+	Vertex* newVertexList = (Vertex*)::malloc(newVertexCount * sizeof(Vertex));
+	if (newVertexList == NULL)
+	{
+		printf("Out of memory\n");
+		return;
+	}
+
+	for (int i = 0; i < triCount(); i++)
+	{
+		Tri* t = &tri(i);
+		for (int j = 0; j < 3; j++)
+		{
+			int sIndex = t->v[j].index;
+			int dIndex = i * 3 + j;
+			Vertex* dPtr = &newVertexList[dIndex];
+			*dPtr = vertex(sIndex);
+			dPtr->u = t->v[j].u;
+			dPtr->u = t->v[j].v;
+			dPtr->normal = t->normal;
+			t->v[j].index = dIndex;
+		}
+	}
+	::free(vList);
+	vList = newVertexList;
+	vCount = newVertexCount;
+	vAlloc = newVertexCount;
+}
+
 void EditTriMesh::computeOneTriNormal(Tri& t)
 {
 	const Vector3& v1 = vertex(t.v[0].index).p;
